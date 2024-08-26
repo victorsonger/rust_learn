@@ -30,10 +30,24 @@ fn main() {
     let row = vec![
         SpreadsheetCell::Int(3),
         SpreadsheetCell::Text(String::from("blue")),
-        SpreadsheetCell::Float(23.4)
+        SpreadsheetCell::Float(23.4),
     ];
 
     for i in &row {
         println!("row: {i:?}");
     }
+
+    // 所有权
+    let mut own_vec = Vec::new();
+    own_vec.push(String::from("Blue"));
+    println!("{}: {:?}", "own_vec", own_vec);
+    let item_red = String::from("Red");
+    own_vec.push(item_red);
+
+    // 下面一行会编译报错
+    // （
+    // borrow of moved value: `item_red`
+    // value borrowed here after move
+    // ）
+    // println!("{}: {:?}", "item_red", item_red);
 }
