@@ -19,7 +19,10 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     let config = Config::build(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {err}");
+        // 将错误信息打印到标准错位流
+        // 这样它就不会出现在由 > 重定向到output.txt文件中
+        // 而只会出现在终端
+        eprintln!("Problem parsing arguments: {err}");
         process::exit(1);
     });
 
@@ -27,7 +30,7 @@ fn main() {
     println!("In file {}", config.file_path);
 
     if let Err(e) = minigrep::run(config.clone()) {
-        println!("Application error: {e}");
+        eprintln!("Application error: {e}");
         process::exit(1);
     }
     // 如果想多次使用config调用run，就需要对Config实现Clone，并在前面的调用中使用config.clone()
