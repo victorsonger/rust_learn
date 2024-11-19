@@ -1,4 +1,6 @@
 // https://doc.rust-lang.org/book/ch12-03-improving-error-handling-and-modularity.html
+// $ cargo run -- the poem.txt
+
 use std::env;
 use std::process;
 
@@ -16,15 +18,22 @@ Handling the error if run returns an error
 如果run返回错误，则处理错误
  */
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    // let args: Vec<String> = env::args().collect();
 
-    let config = Config::build(&args).unwrap_or_else(|err| {
-        // 将错误信息打印到标准错位流
-        // 这样它就不会出现在由 > 重定向到output.txt文件中
-        // 而只会出现在终端
+    // let config = Config::build(&args).unwrap_or_else(|err| {
+    //     // 将错误信息打印到标准错位流
+    //     // 这样它就不会出现在由 > 重定向到output.txt文件中
+    //     // 而只会出现在终端
+    //     eprintln!("Problem parsing arguments: {err}");
+    //     process::exit(1);
+    // });
+    
+    println!("\n#  13-18 将env::args的返回值传递给Config::build  \n---------------------------------------------");
+    let config = Config::build(env::args()).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {err}");
         process::exit(1);
     });
+    
 
     println!("Searching for {}", config.query);
     println!("In file {}", config.file_path);
